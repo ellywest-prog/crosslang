@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="CrossLang - Gerçek zamanlı ses çeviri uygulaması. Bluetooth kulaklık ile farklı dillerde konuşun.">
+    <meta name="theme-color" content="#0a0a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>CrossLang - Gerçek Zamanlı Çeviri</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="appHeader">
+        <div class="header-left">
+            <span class="logo-icon">🌐</span>
+            <h1 class="logo-text">CrossLang</h1>
+        </div>
+        <div class="header-right">
+            <div id="connectionStatus" class="status-dot offline" title="Bağlantı durumu"></div>
+            <button id="settingsBtn" class="icon-btn" aria-label="Ayarlar">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Language Selector -->
+        <section id="languageBar" class="glass-card language-bar">
+            <div class="lang-group">
+                <span class="lang-label">Kişi A</span>
+                <div class="lang-select-wrapper">
+                    <span id="flagA" class="flag-emoji">🇺🇸</span>
+                    <select id="langA" class="lang-select">
+                        <option value="en-US" data-flag="🇺🇸" data-short="en">English</option>
+                        <option value="tr-TR" data-flag="🇹🇷" data-short="tr">Türkçe</option>
+                        <option value="it-IT" data-flag="🇮🇹" data-short="it">Italiano</option>
+                        <option value="ko-KR" data-flag="🇰🇷" data-short="ko">한국어</option>
+                        <option value="ja-JP" data-flag="🇯🇵" data-short="ja">日本語</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="swapLangs" class="swap-btn" aria-label="Dilleri değiştir">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            </button>
+
+            <div class="lang-group">
+                <span class="lang-label">Kişi B</span>
+                <div class="lang-select-wrapper">
+                    <span id="flagB" class="flag-emoji">🇹🇷</span>
+                    <select id="langB" class="lang-select">
+                        <option value="tr-TR" data-flag="🇹🇷" data-short="tr">Türkçe</option>
+                        <option value="en-US" data-flag="🇺🇸" data-short="en">English</option>
+                        <option value="it-IT" data-flag="🇮🇹" data-short="it">Italiano</option>
+                        <option value="ko-KR" data-flag="🇰🇷" data-short="ko">한국어</option>
+                        <option value="ja-JP" data-flag="🇯🇵" data-short="ja">日本語</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bluetooth Device Section -->
+        <section id="btSection" class="glass-card bt-section">
+            <div class="bt-header">
+                <span class="bt-icon">🎧</span>
+                <span class="bt-title">Ses Cihazları</span>
+            </div>
+            <div class="bt-selectors">
+                <div class="device-row">
+                    <label for="inputDevice" class="device-label">🎤 Mikrofon</label>
+                    <select id="inputDevice" class="device-select">
+                        <option value="default">Varsayılan Mikrofon</option>
+                    </select>
+                </div>
+                <div class="device-row">
+                    <label for="outputDevice" class="device-label">🔊 Hoparlör</label>
+                    <select id="outputDevice" class="device-select">
+                        <option value="default">Varsayılan Hoparlör</option>
+                    </select>
+                </div>
+            </div>
+            <button id="refreshDevices" class="refresh-btn">🔄 Cihazları Yenile</button>
+        </section>
+
+        <!-- Conversation Transcript -->
+        <section id="transcriptSection" class="glass-card transcript-section">
+            <div class="transcript-header">
+                <span>💬 Konuşma</span>
+                <button id="clearTranscript" class="clear-btn" title="Temizle">🗑️</button>
+            </div>
+            <div id="transcript" class="transcript-area">
+                <div class="welcome-msg">
+                    <span class="welcome-icon">👋</span>
+                    <p>Konuşmak için aşağıdaki butonlara basın</p>
+                    <p class="welcome-sub">Kişi A telefon mikrofonu kullanır, Kişi B bluetooth kulaklık kullanır</p>
+                </div>
+            </div>
+            <!-- Interim (live) recognition display -->
+            <div id="interimText" class="interim-text" style="display:none;">
+                <span class="pulse-dot"></span>
+                <span id="interimContent"></span>
+            </div>
+        </section>
+
+        <!-- Control Buttons -->
+        <section id="controls" class="controls-section">
+            <button id="btnPersonA" class="talk-btn talk-btn-a" data-person="A">
+                <div class="talk-btn-inner">
+                    <div class="talk-btn-icon">📱</div>
+                    <div class="talk-btn-label">Kişi A</div>
+                    <div class="talk-btn-sub">Telefon Mikrofonu</div>
+                </div>
+                <div class="pulse-ring"></div>
+            </button>
+
+            <div class="controls-divider">
+                <span id="activeMode" class="mode-indicator">⏸️ Hazır</span>
+            </div>
+
+            <button id="btnPersonB" class="talk-btn talk-btn-b" data-person="B">
+                <div class="talk-btn-inner">
+                    <div class="talk-btn-icon">🎧</div>
+                    <div class="talk-btn-label">Kişi B</div>
+                    <div class="talk-btn-sub">Bluetooth Mikrofon</div>
+                </div>
+                <div class="pulse-ring"></div>
+            </button>
+        </section>
+    </main>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-overlay" style="display:none;">
+        <div class="modal glass-card">
+            <div class="modal-header">
+                <h2>⚙️ Ayarlar</h2>
+                <button id="closeSettings" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <label for="azureKey">Azure Speech API Anahtarı</label>
+                    <input type="password" id="azureKey" class="setting-input" placeholder="API anahtarınızı girin">
+                </div>
+                <input type="hidden" id="azureRegion" value="westeurope">
+                <div class="setting-group">
+                    <label for="azureKey2">Yedek API Anahtarı (Opsiyonel)</label>
+                    <input type="password" id="azureKey2" class="setting-input" placeholder="İkinci API anahtarı">
+                </div>
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="autoDetectSilence" checked>
+                        Sessizlikte otomatik dur
+                    </label>
+                </div>
+                <button id="saveSettings" class="save-btn">💾 Kaydet</button>
+                <button id="testConnection" class="test-btn">🔗 Bağlantıyı Test Et</button>
+                <p id="settingsStatus" class="settings-status"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast" style="display:none;"></div>
+
+    <!-- Azure Speech SDK -->
+    <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+    <!-- App Scripts -->
+    <script src="js/audio-devices.js"></script>
+    <script src="js/speech-service.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
